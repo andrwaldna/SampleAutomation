@@ -6,6 +6,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import io.github.bonigarcia.wdm.WebDriverManager;
 
 import java.time.Duration;
 
@@ -14,10 +15,12 @@ public class PageBase {
     protected static WebDriverWait wait;
 
     public static void initializeDriver(String url) {
-        System.setProperty("webdriver.chrome.driver", "src/main/java/drivers/chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
-        driver = new ChromeDriver(options);
+
+        // NEW WAY using WebDriverManager 6.1.0
+        driver = WebDriverManager.chromedriver().capabilities(options).create();
+
         driver.get(url);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
