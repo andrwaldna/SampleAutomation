@@ -1,4 +1,4 @@
-package pageobject;
+package pageobject.web;
 
 import instance.PageBase;
 import org.openqa.selenium.By;

@@ -10,6 +10,6 @@ import org.junit.runner.RunWith;
         glue = "stepdefinitions",
         plugin = {"pretty", "html:reports/cucumber-html-report", "json:reports/cucumber-json-report.json"},
         monochrome = true,
-        tags = "@AutomationPractice")
+        tags = "@POSTAddPet")
 public class TestRunner {
 }

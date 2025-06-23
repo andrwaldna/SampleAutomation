@@ -1,8 +1,8 @@
-package stepdefinitions;
+package stepdefinitions.web;
 
 import io.cucumber.java.en.*;
 import org.openqa.selenium.WebDriver;
-import pageobject.GoogleHomePage;
+import pageobject.web.GoogleHomePage;
 
 public class GoogleSearchSteps {
     WebDriver driver;
