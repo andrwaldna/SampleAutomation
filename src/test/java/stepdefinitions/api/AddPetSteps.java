@@ -16,6 +16,7 @@ public class AddPetSteps {
     @Given("I am an authorized User")
     public void i_am_an_authorized_user() {
         //For accessToken or authorization
+        System.out.println("This is the authorization ");
     }
 
     @When("I send a POST request to add the pet with details")

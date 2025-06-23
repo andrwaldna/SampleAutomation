@@ -44,13 +44,16 @@ public class AddPet {
         requestSpec.setBasePath(endpoint);
         requestSpec.setContentType(ContentType.JSON);
         requestSpec.setAccept(ContentType.JSON);
-        requestSpec.addHeader("Content-Type", "application/json");
-        requestSpec.addHeader("Accept", "application/json");
         requestSpec.setBody(createPostAddPetBody(map).toString());
         return requestSpec;
     }
 
     private Map<String, Object> createPostAddPetBody(Map<String, String> map) {
+        String name = map.get("name");
+        String categoryName = map.get("categoryName");
+        String tagsName = map.get("tagsName");
+        String status = map.get("status");
+
         JSONObject details = new JSONObject();
 
         details.put("id", 0);
@@ -58,12 +61,12 @@ public class AddPet {
 
         JSONObject category = new JSONObject();
         category.put("id", 0);
-        category.put("name", "string");
+        category.put("name", categoryName);
         System.out.println("Category: " + category.toJSONString());
         details.put("category", category);
 
-        details.put("name", "doggie");
-        System.out.println("Pet Name: doggie");
+        details.put("name", name);
+        System.out.println("Pet Name: " + name);
 
         JSONArray photoUrls = new JSONArray();
         photoUrls.add("string");
@@ -73,15 +76,14 @@ public class AddPet {
         JSONArray tags = new JSONArray();
         JSONObject tag = new JSONObject();
         tag.put("id", 0);
-        tag.put("name", "string");
+        tag.put("name", tagsName);
         tags.add(tag);
         details.put("tags", tags);
         System.out.println("Tags: " + tags.toJSONString());
 
-        details.put("status", "available");
-        System.out.println("Status: available");
+        details.put("status", status);
+        System.out.println("Status: " + status);
 
-        System.out.println("Final Pet Payload: " + details.toJSONString());
         return details;
     }
 
