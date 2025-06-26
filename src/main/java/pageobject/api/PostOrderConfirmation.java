@@ -46,42 +46,87 @@ public class PostOrderConfirmation {
     }
 
     private Map<String, Object> createPostOrderConfirmationBody(Map<String, String> map) {
+        String orderId = map.get("orderId");
+        String userId = map.get("userId");
+        String email = map.get("email");
         String name = map.get("name");
-        String categoryName = map.get("categoryName");
-        String tagsName = map.get("tagsName");
-        String status = map.get("status");
+        String orderDate = map.get("orderDate");
+        String totalAmount = map.get("totalAmount");
+        String currency = map.get("currency");
+        String productId = map.get("productId");
+        String productName = map.get("productName");
+        String quantity = map.get("quantity");
+        String price = map.get("price");
+        String line1 = map.get("line1");
+        String line2 = map.get("line2");
+        String city = map.get("city");
+        String state = map.get("state");
+        String postalCode = map.get("postalCode");
+        String country = map.get("country");
+        String sendEmail = map.get("sendEmail");
+
 
         JSONObject details = new JSONObject();
 
-        details.put("id", 0);
-        System.out.println("Pet ID: 0");
+        //For orderId field
+        details.put("orderId", orderId);
 
-        JSONObject category = new JSONObject();
-        category.put("id", 0);
-        category.put("name", categoryName);
-        System.out.println("Category: " + category.toJSONString());
-        details.put("category", category);
+        // For user fields
+        JSONObject user = new JSONObject();
+        user.put("userId", userId);
+        user.put("email", email);
+        user.put("name", name);
+        details.put("user", user);
 
-        details.put("name", name);
-        System.out.println("Pet Name: " + name);
+        // For orderDetails fields
+        JSONObject orderDetails = new JSONObject();
+        orderDetails.put("orderDate", orderDate);
+        orderDetails.put("totalAmount", Double.parseDouble(totalAmount));
+        orderDetails.put("currency", currency);
 
-        JSONArray photoUrls = new JSONArray();
-        photoUrls.add("string");
-        details.put("photoUrls", photoUrls);
-        System.out.println("Photo URLs: " + photoUrls.toJSONString());
+        //For orderDetails-item fields
+        // Split comma-separated values for items
+        String[] productIds = map.get("productId").split(",");
+        String[] productNames = map.get("productName").split(",");
+        String[] quantities = map.get("quantity").split(",");
+        String[] prices = map.get("price").split(",");
 
-        JSONArray tags = new JSONArray();
-        JSONObject tag = new JSONObject();
-        tag.put("id", 0);
-        tag.put("name", tagsName);
-        tags.add(tag);
-        details.put("tags", tags);
-        System.out.println("Tags: " + tags.toJSONString());
+        JSONArray items = new JSONArray();
 
-        details.put("status", status);
-        System.out.println("Status: " + status);
+        // To ensure that all arrays are of the same length
+        int itemCount = Math.min(Math.min(productIds.length, productNames.length),
+                Math.min(quantities.length, prices.length));
 
-        return details;
+        for (int i = 0; i < itemCount; i++) {
+            JSONObject item = new JSONObject();
+            item.put("productId", productIds[i].trim());
+            item.put("productName", productNames[i].trim());
+            item.put("quantity", Integer.parseInt(quantities[i].trim()));
+            item.put("price", Double.parseDouble(prices[i].trim()));
+            items.add(item);
+        }
+
+        orderDetails.put("items", items);
+        details.put("orderDetails", orderDetails);
+
+        // For shippingAddress fields
+        JSONObject shippingAddress = new JSONObject();
+        shippingAddress.put("line1", line1);
+        shippingAddress.put("line2", line2);
+        shippingAddress.put("city", city);
+        shippingAddress.put("state", state);
+        shippingAddress.put("postalCode", postalCode);
+        shippingAddress.put("country", country);
+        details.put("shippingAddress", shippingAddress);
+
+        // For sendEmail fields
+        details.put("sendEmail", Boolean.parseBoolean(sendEmail));
+
+        // To wrap as Map<String, Object> to match return type
+        Map<String, Object> response = new HashMap<>();
+        response.put("body", details);
+
+        return response;
     }
 
     private ResponseSpecification responseSpec() {
