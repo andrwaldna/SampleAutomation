@@ -6,7 +6,7 @@
 Feature: Add Pet to the Store
   #https://petstore.swagger.io
   Scenario Outline: TS-<SceneID>-<Description>
-    Given I am an authorized User
+    Given I am an authorized
     When I send a POST request to add the pet with details
       | name   | categoryName   | tagsName   | status   |
       | <name> | <categoryName> | <tagsName> | <status> |
@@ -15,5 +15,4 @@ Feature: Add Pet to the Store
     Examples:
       | SceneID | Description                               | name      | categoryName      | tagsName      | status      | expectedStatusCode |
       | 001     | User send POST request to add pet details | Test name | Test categoryName | Test tagsName | Test status | 200                |
-
 

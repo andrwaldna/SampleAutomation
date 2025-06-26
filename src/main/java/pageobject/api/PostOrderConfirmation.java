@@ -1,26 +1,24 @@
 package pageobject.api;
 
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.specification.ResponseSpecification;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import utils.RestUtils;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.builder.ResponseSpecBuilder;
-import io.restassured.http.ContentType;
-import io.restassured.specification.ResponseSpecification;
-import org.json.simple.JSONArray;
-import utils.RestUtils;
-import io.restassured.response.Response;
-import org.json.simple.JSONObject;
+public class PostOrderConfirmation {
 
-public class AddPet {
+    private final String baseUri = "https://api.example.com";
+    private final String endpoint = "/v1/orders/confirm";
 
-    private final String baseUri = "https://petstore.swagger.io/v2";
-    private final String endpoint = "/pet";
-
-
-    //testing only if can copy current framework
     // Extracts the first row from the DataTable list
     private Map<String, String> separateTableDetails(List<Map<String, String>> list)
     {
@@ -32,22 +30,22 @@ public class AddPet {
         return map;
     }
 
-    public Response postAddPetResponse(List<Map<String, String>> list) {
+    public Response postOrderConfirmationResponse(List<Map<String, String>> list) {
         Map<String, String> map = separateTableDetails(list);
-        return RestUtils.doPostRequest(endpoint, this.postAddPetRequestSpec(map),responseSpec());
+        return RestUtils.doPostRequest(endpoint, this.postOrderConfirmationRequestSpec(map),responseSpec());
     }
 
-    private RequestSpecBuilder postAddPetRequestSpec(Map<String, String> map) {
+    private RequestSpecBuilder postOrderConfirmationRequestSpec(Map<String, String> map) {
         RequestSpecBuilder requestSpec = new RequestSpecBuilder();
         requestSpec.setBaseUri(baseUri);
         requestSpec.setBasePath(endpoint);
         requestSpec.setContentType(ContentType.JSON);
         requestSpec.setAccept(ContentType.JSON);
-        requestSpec.setBody(createPostAddPetBody(map).toString());
+        requestSpec.setBody(createPostOrderConfirmationBody(map).toString());
         return requestSpec;
     }
 
-    private Map<String, Object> createPostAddPetBody(Map<String, String> map) {
+    private Map<String, Object> createPostOrderConfirmationBody(Map<String, String> map) {
         String name = map.get("name");
         String categoryName = map.get("categoryName");
         String tagsName = map.get("tagsName");
@@ -92,7 +90,7 @@ public class AddPet {
         return resSpec.build();
     }
 
-    public void validatePostAddPetStatusCode(Response response, int expectedStatusCode) {
+    public void validatePostOrderConfirmationStatusCode(Response response, int expectedStatusCode) {
         int actualStatusCode = response.getStatusCode();
         System.out.println("Expected Status Code: " + expectedStatusCode);
         System.out.println("Actual Status Code: " + actualStatusCode);
